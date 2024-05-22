@@ -2,14 +2,9 @@ package gpsroutegen_test
 
 import (
 	"fmt"
-	"testing"
 
 	"github.com/rrgmc/gpsroutegen"
 )
-
-func Test1(t *testing.T) {
-	ExampleGenerateRandom()
-}
 
 func ExampleGenerateRandom() {
 	data := gpsroutegen.GenerateRandom(
