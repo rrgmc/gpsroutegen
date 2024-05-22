@@ -32,11 +32,10 @@ func ExampleGenerate() {
 		},
 	)
 
-	enc, err := data.ToGeoJSON().MarshalJSON()
+	url, err := data.ToGeoJSONIOUrl()
 	if err != nil {
 		panic(err)
 	}
-
-	// paste this output in https://geojson.io/#map=2/0/20
-	fmt.Println(string(enc))
+	fmt.Println("click the URL to see the route in a map")
+	fmt.Println(url)
 }

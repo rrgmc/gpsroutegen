@@ -28,6 +28,7 @@ func GenerateRandom(options ...GenerateRandomOption) DataList {
 	for range *optns.directionChanges - 1 {
 		newDistance := distanceLeft / (*optns.directionChanges - len(distances))
 		distanceLeft -= newDistance
+		distances = append(distances, newDistance)
 	}
 	distances = append(distances, distanceLeft)
 

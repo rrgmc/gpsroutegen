@@ -2,6 +2,7 @@ package gpsroutegen
 
 import (
 	"math"
+	"net/url"
 
 	"github.com/paulmach/orb"
 	"github.com/paulmach/orb/geojson"
@@ -88,6 +89,21 @@ func (l DataList) ToGeoJSON() *geojson.FeatureCollection {
 	fc.Append(f)
 
 	return fc
+}
+
+func (l DataList) ToGeoJSONIOUrl() (string, error) {
+	enc, err := l.ToGeoJSON().MarshalJSON()
+	if err != nil {
+		return "", err
+	}
+
+	u, err := url.Parse("https://geojson.io")
+	if err != nil {
+		return "", err
+	}
+
+	u.Fragment = "data=data:application/json," + string(enc)
+	return u.String(), nil
 }
 
 type DataRange struct {

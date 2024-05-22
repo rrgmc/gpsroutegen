@@ -4,6 +4,8 @@
 
 `gpsroutegen` generates realistic GPS coordinates.
 
+![Mapbox](./images/mapbox.png)
+
 ## Installation
 
 ```bash
@@ -38,28 +40,26 @@ go get github.com/rrgmc/gpsroutegen
         },
     )
 
-    enc, err := data.ToGeoJSON().MarshalJSON()
+    url, err := data.ToGeoJSONIOUrl()
     if err != nil {
         panic(err)
     }
-
-    // paste this output in https://geojson.io/#map=2/0/20
-    fmt.Println(string(enc))
+    fmt.Println("click the URL to see the route in a map")
+    fmt.Println(url)
 ```
-
 
 ```go
     data := gpsroutegen.GenerateRandom(
-        gpsroutegen.WithDistance(gpsroutegen.RandRangeInt(400, 800)),
+        gpsroutegen.WithDistance(gpsroutegen.RandRangeInt(3000, 5000)),
+        gpsroutegen.WithDirectionChanges(8),
         gpsroutegen.WithStart(gpsroutegen.RandPointNear(gpsroutegen.NewPoint(55.953251, -3.188267), 300.0)))
 
-    enc, err := data.ToGeoJSON().MarshalJSON()
+    url, err := data.ToGeoJSONIOUrl()
     if err != nil {
         panic(err)
     }
-
-    // paste this output in https://geojson.io/#map=2/0/20
-    fmt.Println(string(enc))
+    fmt.Println("click the URL to see the route in a map")
+    fmt.Println(url)
 ```
 
 Output data can be tested using the [Mapbox viewer](https://geojson.io/#map=2/0/20). 
