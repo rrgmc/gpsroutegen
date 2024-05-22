@@ -1,6 +1,6 @@
 module github.com/rrgmc/gpsroutegen
 
-go 1.22.3
+go 1.22.0
 
 require (
 	github.com/paulmach/orb v0.11.1
