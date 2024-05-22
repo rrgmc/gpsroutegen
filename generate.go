@@ -2,7 +2,7 @@ package gpsroutegen
 
 import (
 	"math"
-	"math/rand"
+	"math/rand/v2"
 
 	"github.com/paulmach/orb"
 	"github.com/paulmach/orb/geo"
@@ -40,8 +40,7 @@ func Generate(start Point, input ...GenerateInput) DataList {
 func generateNewLocation(start Point, direction DirectionRange, distance DataRange) Data {
 
 	var (
-		latitudeOneDegreeOfDistance = 111000 // metres
-		newPoint                    Point    // []float64{Long, Lat}
+		newPoint Point // []float64{Long, Lat}
 
 		// convert from degrees to radians
 		deg2rad = func(d float64) float64 { return d * math.Pi / 180 }
