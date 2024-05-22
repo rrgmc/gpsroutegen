@@ -2,7 +2,7 @@
 
 [![GoDoc](https://img.shields.io/static/v1?label=godoc&message=reference&color=blue)](https://pkg.go.dev/github.com/rrgmc/gpsroutegen)
 
-`gpsroutegen` generates realistic GPS coordinates.
+`gpsroutegen` is a Golang package that generates realistic GPS coordinates.
 
 ![Mapbox](./images/mapbox.png)
 
