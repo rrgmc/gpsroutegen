@@ -9,6 +9,9 @@ func GenerateRandom(options ...GenerateRandomOption) DataList {
 	if optns.start == nil {
 		optns.start = ptr(RandPoint())
 	}
+	if optns.amount == nil {
+		optns.amount = ptr(100)
+	}
 	if optns.distance == nil {
 		optns.distance = ptr(RandRangeInt(1000, 2000))
 	}
@@ -23,20 +26,27 @@ func GenerateRandom(options ...GenerateRandomOption) DataList {
 		*optns.directionChanges = 1
 	}
 
+	amountLeft := *optns.amount
 	distanceLeft := *optns.distance
+	var amounts []int
 	var distances []int
 	for range *optns.directionChanges - 1 {
+		newAmount := amountLeft / (*optns.directionChanges - len(amounts))
+		amountLeft -= newAmount
+		amounts = append(amounts, newAmount)
+
 		newDistance := distanceLeft / (*optns.directionChanges - len(distances))
 		distanceLeft -= newDistance
 		distances = append(distances, newDistance)
 	}
+	amounts = append(amounts, amountLeft)
 	distances = append(distances, distanceLeft)
 
 	var input []GenerateInput
 
-	for _, distance := range distances {
+	for idx, distance := range distances {
 		input = append(input, GenerateInput{
-			Amount: 100,
+			Amount: amounts[idx],
 			BearingRange: DirectionRange{
 				Min: RandDirection(),
 				Max: RandDirection(),
@@ -55,6 +65,7 @@ type GenerateRandomOption func(options *generateRandomOptions)
 
 type generateRandomOptions struct {
 	start            *Point
+	amount           *int
 	distance         *int
 	directionChanges *int
 }
@@ -62,6 +73,12 @@ type generateRandomOptions struct {
 func WithStart(start Point) GenerateRandomOption {
 	return func(options *generateRandomOptions) {
 		options.start = &start
+	}
+}
+
+func WithAmount(amount int) GenerateRandomOption {
+	return func(options *generateRandomOptions) {
+		options.amount = &amount
 	}
 }
 
