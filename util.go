@@ -34,3 +34,33 @@ func RandPointNearPoint(start Point, maxDistance int) Point {
 		RandRangeFloat(pmin.Lat, pmax.Lat),
 		RandRangeFloat(pmin.Lon, pmax.Lon))
 }
+
+func RandIntDistribution(amount, buckets int) []int {
+	if buckets <= 0 {
+		return nil
+	}
+
+	var items []int
+	var total int
+	for range buckets {
+		item := RandRangeInt(10, 100)
+		total += item
+		items = append(items, item)
+	}
+
+	var totalAmount int
+	var ret []int
+	for idx := 0; idx < len(items)-1; idx++ {
+		i := items[idx]
+		pct := float64(i) / float64(total)
+		curamount := int(float64(amount) * pct)
+		totalAmount += curamount
+		ret = append(ret, curamount)
+	}
+	ret = append(ret, amount-totalAmount)
+
+	// avoid the problem that the last items usually is the bigger one.
+	rand.Shuffle(len(ret), func(i, j int) { ret[i], ret[j] = ret[j], ret[i] })
+
+	return ret
+}

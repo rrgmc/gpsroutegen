@@ -26,21 +26,8 @@ func GenerateRandom(options ...GenerateRandomOption) DataList {
 		*optns.directionChanges = 1
 	}
 
-	amountLeft := *optns.amount
-	distanceLeft := *optns.distance
-	var amounts []int
-	var distances []int
-	for range *optns.directionChanges - 1 {
-		newAmount := amountLeft / (*optns.directionChanges - len(amounts))
-		amountLeft -= newAmount
-		amounts = append(amounts, newAmount)
-
-		newDistance := distanceLeft / (*optns.directionChanges - len(distances))
-		distanceLeft -= newDistance
-		distances = append(distances, newDistance)
-	}
-	amounts = append(amounts, amountLeft)
-	distances = append(distances, distanceLeft)
+	amounts := RandIntDistribution(*optns.amount, *optns.directionChanges)
+	distances := RandIntDistribution(*optns.distance, *optns.directionChanges)
 
 	var input []GenerateInput
 
@@ -70,24 +57,28 @@ type generateRandomOptions struct {
 	directionChanges *int
 }
 
+// WithStart sets the starting coordinates. If not set, a random coordinate will be used.
 func WithStart(start Point) GenerateRandomOption {
 	return func(options *generateRandomOptions) {
 		options.start = &start
 	}
 }
 
+// WithAmount sets the amount of data points to generate. If not set, a value of 100 will be used.
 func WithAmount(amount int) GenerateRandomOption {
 	return func(options *generateRandomOptions) {
 		options.amount = &amount
 	}
 }
 
+// WithDistance sets the total distance of the route in meters. If not set, a random value between 1000 and 2000 will be used.
 func WithDistance(distance int) GenerateRandomOption {
 	return func(options *generateRandomOptions) {
 		options.distance = &distance
 	}
 }
 
+// WithDirectionChanges sets the amount of direction changes to generate. If not set, a random value between 0 and 5 will be used.
 func WithDirectionChanges(directionChanges int) GenerateRandomOption {
 	return func(options *generateRandomOptions) {
 		options.directionChanges = &directionChanges
