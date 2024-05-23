@@ -22,7 +22,11 @@ func RandPoint() Point {
 	return NewPoint(RandRangeFloat(-90.0, 90.0), RandRangeFloat(-180, 180))
 }
 
-func RandPointNear(start Point, maxDistance int) Point {
+func RandPointNear(lat, lon float64, maxDistance int) Point {
+	return RandPointNearPoint(Point{Lat: lat, Lon: lon}, maxDistance)
+}
+
+func RandPointNearPoint(start Point, maxDistance int) Point {
 	pmin := start.AddDistance(-maxDistance)
 	pmax := start.AddDistance(maxDistance)
 
